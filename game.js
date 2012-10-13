@@ -5,7 +5,7 @@
             var defaultPlayers = [{"number":1,"title":"Keyboard : arrows","actionMapId":0,"keyboard":true,"mouse":"false","gamepad":false,"options":{},"gamepadIndex":false},{"number":2,"title":"Keyboard : wasd","keyboard":true,"mouse":"false","gamepad":false,"options":{"gpadIndex":false},"gamepadIndex":false,"actionMapId":4},{"number":3,"title":"XBOX","keyboard":"false","mouse":"false","gamepad":"XBOX 360","options":{"gpadIndex":false},"gamepadIndex":false,"actionMapId":2},{"number":4,"title":"Playstation","actionMapId":3,"keyboard":"false","mouse":"false","gamepad":"Playstation 3","options":{"gpadIndex":false},"gamepadIndex":false}];
             //HERE ARE ALL THE OPTIONS THAT WILL BE PASSED INTO THE PLUGIN
             var pluginOptions = {
-                maxPlayers: 4,                  //optional (defaults to 1)
+                maxPlayers: 8,                  //optional (defaults to 1)
                 mappings: defaultMappings,      //optional mappings that you could set up and export
                 players: defaultPlayers,        //optional player configs you could set up and export
                 actions: {                      //mandatory
@@ -100,18 +100,21 @@
                 };
 
                 //our simple game loop
-                var gameLoop = function () {
-
-                    //uncomment to have the game area clear between each frame
-                    //ctx.clearRect ( 0 , 0 , ctx.w , ctx.h );
-
-                    //IMPORTANT : Before checking action values, let inpoot get an input snapshot
-                    inpoot.tick();
-
-                    //for each player
-                    for (var i = 0; i < people.length; i++) {
-
-                        //update their player position
+				var render = function (){
+				for (var i = 0; i < people.length; i++) {
+				 //draw the player
+                        ctx.fillStyle = people[i].color;
+                        ctx.beginPath();
+                        ctx.arc(people[i].x, people[i].y, people[i].radius,  0 , Math.PI*2, true);
+                        ctx.closePath();
+                        ctx.fill();
+				}
+				};
+				
+				
+				var update = function (){
+				for (var i = 0; i < people.length; i++) {
+				 //update their player position
                         people[i].x = clamp(Math.round(people[i].x - inpoot.action('left', i+1).val * maxMoveDistance), 0, ctx.w);
                         people[i].x = clamp(Math.round(people[i].x + inpoot.action('right', i+1).val * maxMoveDistance), 0, ctx.w);
                         people[i].y = clamp(Math.round(people[i].y - inpoot.action('up', i+1).val * maxMoveDistance), 0, ctx.h);
@@ -124,14 +127,20 @@
                         if(inpoot.action('shrink', i+1).val){
                             people[i].radius = Math.max(people[i].radius - inpoot.action('shrink', i+1).val,8);
                         }
+				}
+				};
+				
+				
+                var gameLoop = function () {
 
-                        //draw the player
-                        ctx.fillStyle = people[i].color;
-                        ctx.beginPath();
-                        ctx.arc(people[i].x, people[i].y, people[i].radius,  0 , Math.PI*2, true);
-                        ctx.closePath();
-                        ctx.fill();
-                    }
+                    //uncomment to have the game area clear between each frame
+                    ctx.clearRect ( 0 , 0 , ctx.w , ctx.h );
+
+                    //IMPORTANT : Before checking action values, let inpoot get an input snapshot
+                    inpoot.tick();
+                  
+                    update();
+					render();
 
                     requestAnimationFrame(gameLoop);
                 };
