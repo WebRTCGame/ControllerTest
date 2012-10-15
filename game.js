@@ -63,8 +63,10 @@
                 var c = document.getElementById('game-canvas');
                 var ctx = c.getContext('2d');
                 ctx.w = $('#game-canvas').width();
+				console.log(ctx.w);
+				
                 ctx.h = $('#game-canvas').height();
-
+				console.log(ctx.h);
                 //starting data for our game
                 var maxMoveDistance = 5;
                 var people = [
