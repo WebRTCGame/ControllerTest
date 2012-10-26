@@ -5,24 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>TEST</title>
 
-		<style><!--
-:-webkit-full-screen-document {
-}
-/* A full-screen element that is not the root element should be stretched to cover the viewport. */
-:-webkit-full-screen:not(:root) {
-  width: 90% !important;
-  float: none !important;
-}
-:-moz-full-screen:not(:root) {
-  width: 90% !important;
-  float: none !important;
-}
--->
+		<style>
 body {padding:0px; margin:0px;background-color:black;}
-#game-canvas {background-color:white;width:960px;height:540px;}
-
-
-
+#game-canvas {background-color:white;}
 </style>
 		
         <!-- styles just for this example 
@@ -32,98 +17,28 @@ body {padding:0px; margin:0px;background-color:black;}
         <link rel="stylesheet" href="inpoot.css" type="text/css" charset="utf-8" />
 
         <!-- inpoot depends on jquery, jquery tmpl -->
-        <!--<script type="text/javascript" src="jquery-1.7.2.min.js"></script>-->
-		<script data-main="app" src="require.js"></script>
+        <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+		
 		<!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>-->
-        <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
-        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmplPlus.js"></script>
+        <script type="text/javascript" src="jquery.tmpl.js"></script>
+        <script type="text/javascript" src="jquery.tmplPlus.js"></script>
 
         <!-- inpoot.js uses inpoot_gamepads.js and inpoot_keyboards for now... -->
         <script type="text/javascript" src="INPOOT-0.9.1b.js"></script>
-
+		<script type="text/javascript" src="input.js"></script>
 		
-		 <!--<script type="text/javascript" src="game.js"></script>-->
+		 <script type="text/javascript" src="game.js"></script>
         <!-- options for the plugin are stored here : actions and maxPlayers -->
         
 
     </head>
 	<body>
 	    <div class="example-buttons">
-		<button id="enter-exit-fs" onclick="enterFullscreen()">Toggle fullscreen</button>
+		
 	        <button id="activate-inpoot">CLICK TO SHOW THE INPOOT INTERFACE</button>
 	    </div>
         
             <canvas id="game-canvas"></canvas>
-        
-		<script>
-document.cancelFullScreen = document.webkitExitFullscreen || document.mozCancelFullScreen || document.exitFullscreen;
-
-var elem = document.querySelector("#game-canvas");//document.querySelector('body');//document.querySelector(document.webkitExitFullscreen ? "#fs" : "#fs-container");
-
-document.addEventListener('keydown', function(e) {
-  switch (e.keyCode) {
-    case 13: // ENTER. ESC should also take you out of fullscreen by default.
-      e.preventDefault();
-      document.cancelFullScreen(); // explicitly go out of fs.
-      break;
-    case 70: // f
-      enterFullscreen();
-      break;
-  }
-}, false);
-
-function onFullScreenEnter() {
-  console.log("Entered fullscreen!");
-  elem.onwebkitfullscreenchange = onFullScreenExit;
-  elem.onmozfullscreenchange = onFullScreenExit;
-  if(document.mozFullScreen || document.webkitIsFullScreen) {
-  console.log("resizefs");
-        var rect = document.body.getBoundingClientRect ();//elem.getBoundingClientRect();
-		console.log(rect);
-        elem.width = 960;//rect.width;
-		//$("#game-canvas").css("width", "100%");
-		console.log(elem.width);
-        elem.height = 540;//rect.height;
-		console.log(elem.height);
-    }
-    else {
-        var rect = document.body.getBoundingClientRect ();//elem.getBoundingClientRect();
-		console.log(rect);
-        elem.width = 960;//rect.width;
-		console.log(elem.width);
-        elem.height = 540;//rect.height;
-		console.log(elem.height);
-    }
-};
-
-// Called whenever the browser exits fullscreen.
-function onFullScreenExit() {
-  console.log("Exited fullscreen!");
-};
-
-// Note: FF nightly needs about:config full-screen-api.enabled set to true.
-function enterFullscreen() {
-  console.log("enterFullscreen()");
-  elem.onwebkitfullscreenchange = onFullScreenEnter;
-  elem.onmozfullscreenchange = onFullScreenEnter;
-  elem.onfullscreenchange = onFullScreenEnter;
-  if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-  } else {
-    if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else {
-      elem.requestFullscreen();
-    }
-  }
-  document.getElementById('enter-exit-fs').onclick = exitFullscreen;
-}
-
-function exitFullscreen() {
-  console.log("exitFullscreen()");
-  document.cancelFullScreen();
-  document.getElementById('enter-exit-fs').onclick = enterFullscreen;
-}
-</script>
+      
 	</body>
 </html>
